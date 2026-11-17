@@ -1,0 +1,8 @@
+# Customer List: the customer's category as a column after Name
+extends: 22
+layout:
+  repeater:
+    fields:
+      - source: tea_customer_category_code
+        after: name
+        width: 100
