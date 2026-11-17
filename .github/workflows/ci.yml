@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+env:
+  APP_ID: c7c1e38d-51b4-453d-97ad-32fd54456d4b
+  # the base release the app is built and tested against
+  BASE_VERSION: v0.1.160
+
+jobs:
+  build:
+    name: Build and test with the base application
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out the app
+        uses: actions/checkout@v4
+        with:
+          path: app
+
+      - name: Check out the base application
+        uses: actions/checkout@v4
+        with:
+          repository: hansjlachmann/goeasyerp
+          ref: ${{ env.BASE_VERSION }}
+          path: base
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: base/go.mod
+          cache-dependency-path: base/go.sum
+
+      - name: Merge the app into the base
+        working-directory: base
+        run: |
+          mkdir -p apps/$APP_ID
+          cp -r ../app/extensions/. apps/$APP_ID/
+          go run ./tools/extmerge --core backend/definitions --apps apps --output merged \
+            --translations translations --translations-output merged-translations --go-root .
+          rm -rf backend/definitions translations
+          mv merged backend/definitions
+          mv merged-translations translations
+
+      - name: Generate the table code
+        working-directory: base
+        run: go generate ./backend/generated/tables
+
+      - name: Build
+        working-directory: base
+        run: go build ./...
+
+      - name: Base checks of the merged build
+        working-directory: base
+        run: go test ./backend/api/handlers ./backend/business-logic/apps ./backend/foundation/apps ./cmd/api-server -count=1
+
+      - name: App tests
+        working-directory: base/apps/${{ env.APP_ID }}
+        run: go test ./... -count=1
+
+      - name: Vet
+        working-directory: base/apps/${{ env.APP_ID }}
+        run: go vet ./...
+
+      - name: Format
+        run: |
+          unformatted=$(gofmt -l app/extensions)
+          if [ -n "$unformatted" ]; then
+            echo "Not formatted:"
+            echo "$unformatted"
+            exit 1
+          fi
