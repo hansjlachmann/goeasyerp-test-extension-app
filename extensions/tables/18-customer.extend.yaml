@@ -1,0 +1,12 @@
+# Customer: the category the customer belongs to
+extends_table: 18
+fields:
+  - name: tea_customer_category_code
+    no: 50100
+    type: types.Code
+    db_name: tea_customer_category_code
+    length: 10
+    caption: Customer Category Code
+    table_relation:
+      table: TEA_Customer_Category
+      field: code

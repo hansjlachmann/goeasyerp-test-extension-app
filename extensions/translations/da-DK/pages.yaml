@@ -1,0 +1,4 @@
+# The app's page captions
+pages:
+  tea_customer_categories:
+    caption: "Kundekategorier"

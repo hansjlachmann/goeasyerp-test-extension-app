@@ -1,0 +1,14 @@
+application:
+  id: c7c1e38d-51b4-453d-97ad-32fd54456d4b
+  name: Test Extension App
+  publisher: hansjlachmann
+  contact: https://github.com/hansjlachmann/goeasyerp-test-extension-app
+  version: 1.0.0
+  prefix: tea
+  number_series:
+    objects: [{from: 50100, to: 50199}]
+    fields: [{from: 50100, to: 50199}]
+  dependencies:
+    - id: 760e20ec-7a66-4e3f-b6e5-83c94db5a4bd
+      name: GoEasyERP Base Application
+      min_version: 0.1.160

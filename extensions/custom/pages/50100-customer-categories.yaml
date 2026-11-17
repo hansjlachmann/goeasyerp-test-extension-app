@@ -1,0 +1,15 @@
+page:
+  id: 50100
+  type: List
+  name: TEA Customer Categories
+  source_table: TEA_Customer_Category
+  caption: Customer Categories
+  editable: true
+
+  layout:
+    repeater:
+      fields:
+        - source: code
+          width: 100
+        - source: description
+          width: 250

@@ -1,0 +1,4 @@
+# The app's menu captions
+common:
+  menu:
+    customer_categories: "Customer Categories"

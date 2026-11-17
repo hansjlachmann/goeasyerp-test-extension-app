@@ -1,0 +1,10 @@
+# The app's table and field captions
+tables:
+  tea_customer_category:
+    caption: "Kundekategori"
+    fields:
+      code: "Kode"
+      description: "Beskrivelse"
+  customer:
+    fields:
+      tea_customer_category_code: "Kundekategorikode"

@@ -1,0 +1,7 @@
+# The main menu: the customer categories under Sales, after Customers
+extends: admin.yaml
+items:
+  - in: Sales
+    after: Customers
+    name: Customer Categories
+    page_id: 50100

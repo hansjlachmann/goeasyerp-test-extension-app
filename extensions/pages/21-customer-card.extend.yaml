@@ -1,0 +1,8 @@
+# Customer Card: the customer's category in the General section
+extends: 21
+layout:
+  sections:
+    - name: General
+      fields:
+        - source: tea_customer_category_code
+          after: territory_code

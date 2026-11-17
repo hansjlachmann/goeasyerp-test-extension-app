@@ -1,0 +1,24 @@
+# Customer Category: a grouping of customers
+table:
+  id: 50100
+  name: "TEA_Customer_Category"
+  description: "Customer Category: a group customers belong to"
+  fields:
+    - name: code
+      no: 50100
+      type: types.Code
+      db_name: code
+      length: 10
+      primary_key: true
+      required: true
+
+    - name: description
+      no: 50101
+      type: types.Text
+      db_name: description
+      length: 50
+
+  keys:
+    - name: Primary
+      fields: [code]
+      clustered: true
