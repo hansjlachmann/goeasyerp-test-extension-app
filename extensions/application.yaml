@@ -11,4 +11,4 @@ application:
   dependencies:
     - id: 760e20ec-7a66-4e3f-b6e5-83c94db5a4bd
       name: GoEasyERP Base Application
-      min_version: 0.1.160
+      min_version: 0.1.161

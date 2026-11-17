@@ -6,8 +6,9 @@ on:
 
 env:
   APP_ID: c7c1e38d-51b4-453d-97ad-32fd54456d4b
-  # the base release the app is built and tested against
-  BASE_VERSION: v0.1.160
+  # the base the app is built and tested against: main until the release with the extension
+  # machinery (v0.1.161) exists, then that tag
+  BASE_VERSION: main
 
 jobs:
   build:
