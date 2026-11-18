@@ -4,6 +4,9 @@ Findings made while building this app that belong in the base repository (not wo
 
 ## A disabled app's table relation check still runs
 
+Reported to the base. Not a blocker for 1.0.0: the app works as described while it is disabled,
+the only difference is that the relation check of the Customer field is not skipped.
+
 `EXTENSIONS.md` §11 says that while an app is disabled "its business logic, event subscribers and
 field checks do not run". Field `tea_customer_category_code` (Customer) has a `table_relation`; the
 generated `Customer.Validate` calls `tables.CheckRelation` without consulting the disabled-app

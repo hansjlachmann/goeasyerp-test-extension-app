@@ -4,6 +4,9 @@ An extension app for [GoEasyERP](https://github.com/hansjlachmann/goeasyerp). It
 example other app authors can copy; the guide to extension apps is `EXTENSIONS.md` in the base
 repository.
 
+**Needs:** GoEasyERP base application **0.1.161** or later (the release with Install App,
+Disable App and Enable App).
+
 ## What it adds
 
 - A table **Customer Category** (50100) with Code and Description, and a list page
@@ -13,27 +16,41 @@ repository.
   General section of the Customer Card and as a column in the Customer List.
 - Texts in en-US, nb-NO and da-DK.
 
-There is no business logic yet: `Register()` in `extensions/app.go` is empty.
+There is no business logic: `Register()` in `extensions/app.go` is empty.
 
 ## Layout
 
 The app is the `extensions/` folder: `application.yaml` (identity, prefix `tea`, numbers
 50100–50199, dependency on the base), `custom/` (own tables and pages), `tables/`, `pages/`
-and `menus/` (additions to the base's), `translations/`, and the Go module (`go.mod`, `app.go`).
+and `menus/` (additions to the base's), `translations/`, and the Go module (`go.mod`, `app.go`,
+`app_test.go`).
 
 ## Installing
 
-In the installation's repository (see `deploy/installation-template/README.md` in the base):
+1. In GoEasyERP, **Administration → Installed Apps → Install App** (SUPER only), with
+   - repository: `https://github.com/hansjlachmann/goeasyerp-test-extension-app`
+   - version: `v1.0.0`
+   - folder: `extensions`
 
-1. In GoEasyERP, **Administration → Installed Apps → Install App**: this repository's URL, the
-   release tag (e.g. `v1.0.0`) and the folder `extensions`.
-2. **Build List**, commit the downloaded `apps.yaml` to the installation repository. Its
-   workflow builds the image.
-3. On the server, pull the image and restart.
+   The app shows as **Pending Install**.
+2. **Build List** downloads `apps.yaml`. Commit it to the installation repository (see
+   `deploy/installation-template/README.md` in the base); its workflow builds the backend image
+   with the app compiled in.
+3. Deploy the image: on the server `scripts/prod.sh pull && scripts/prod.sh up -d`. On startup the
+   app shows as **Installed**.
 
 After installing, create the categories on **Customer Categories** and set them on the customers.
-The app can be turned off and on under **Installed Apps** (Disable App / Enable App); its data
-stays.
+
+## Disabling, enabling and uninstalling
+
+On **Installed Apps** (SUPER only):
+
+- **Disable App** switches the app off without removing it: the page parts and menu entry it added
+  are left out, and its data stays. **Enable App** brings it back (servers pick the switch up
+  within 30 seconds).
+- **Uninstall App** marks the app **Pending Removal**. Then **Build List**, commit the new
+  `apps.yaml` and deploy the image as when installing. The app is gone from the program; its data
+  stays in the database. **Cancel Pending** takes back a pending install, update or removal.
 
 ## Developing
 
@@ -42,5 +59,5 @@ into it, builds, runs the base's page, caption and installed-app checks, the app
 and `gofmt`. To do the same locally, follow `scripts/check-extension-fixture.sh` in the base
 repository with this app's `extensions/` folder.
 
-Releases are tags `vX.Y.Z` matching `version` in `extensions/application.yaml`.
-Commits follow Conventional Commits.
+Releases are tags `vX.Y.Z` matching `version` in `extensions/application.yaml`; see
+`CHANGELOG.md`. Commits follow Conventional Commits.
